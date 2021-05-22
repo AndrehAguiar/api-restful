@@ -1,30 +1,51 @@
 package one.digitalinnovation.apirestful.service;
 
-import one.digitalinnovation.apirestful.dto.Soldier;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import one.digitalinnovation.apirestful.controller.response.SoldierListResponse;
+import one.digitalinnovation.apirestful.controller.response.SoldierResponse;
+import one.digitalinnovation.apirestful.dto.SoldierDTO;
+import one.digitalinnovation.apirestful.entity.SoldierEntity;
+import one.digitalinnovation.apirestful.repository.SoldierRepository;
+import one.digitalinnovation.apirestful.resource.SoldierResource;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SoldierService {
 
-    public List<Soldier> getSoldiers() {
-        Soldier soldier1 = new Soldier("123456789-10", "Andre", "Human", "Pistol");
-        Soldier soldier2 = new Soldier("987654321-00", "Aguiar", "Paladin", "Sword");
-        return Arrays.asList(soldier1, soldier2);
+    private final SoldierRepository soldierRepository;
+    private final ObjectMapper objectMapper;
+    private final SoldierResource soldierResource;
+
+    public SoldierService(SoldierRepository soldierRepository, ObjectMapper objectMapper, SoldierResource soldierResource) {
+        this.soldierRepository = soldierRepository;
+        this.objectMapper = objectMapper;
+        this.soldierResource = soldierResource;
     }
 
-    public Soldier getSoldier(String cpf) {
-        return new Soldier(cpf, "Andre", "Human", "Pistol");
+    public CollectionModel<SoldierListResponse> getSoldiers() {
+        return CollectionModel.of(soldierRepository.findAll()
+                .stream().map(soldierResource::createLink)
+                .collect(Collectors.toList()));
     }
 
-    public void createSoldier(Soldier soldier) {
+    public SoldierResponse getSoldier(Long id) {
+        SoldierEntity soldier = soldierRepository.findById(id).orElseThrow();
+        return soldierResource.createLinkDetail(soldier);
     }
 
-    public void editSoldier(String cpf, Soldier soldier) {
+    public void createSoldier(SoldierDTO soldierDTO) {
+        SoldierEntity soldierEntity = objectMapper.convertValue(soldierDTO, SoldierEntity.class);
+        soldierRepository.save(soldierEntity);
     }
 
-    public void deleteSoldier(String cpf) {
+    public void editSoldier(String cpf, SoldierDTO soldierDTO) {
+    }
+
+    public void deleteSoldier(Long id) {
+        SoldierEntity soldierEntity = soldierRepository.findById(id).orElseThrow();
+        soldierRepository.delete(soldierEntity);
     }
 }

@@ -1,17 +1,11 @@
-package one.digitalinnovation.apirestful.dto;
+package one.digitalinnovation.apirestful.controller.request;
 
-public class Soldier {
+public class SoldierEditRequest {
     private String cpf;
     private String name;
     private String breed;
     private String weapon;
-
-    public Soldier(String cpf, String name, String breed, String weapon) {
-        this.cpf = cpf;
-        this.name = name;
-        this.breed = breed;
-        this.weapon = weapon;
-    }
+    private String status;
 
     public String getCpf() {
         return cpf;
@@ -45,13 +39,11 @@ public class Soldier {
         this.weapon = weapon;
     }
 
-    @Override
-    public String toString() {
-        return "Soldier{" +
-                "cpf='" + cpf + '\'' +
-                ", name='" + name + '\'' +
-                ", breed='" + breed + '\'' +
-                ", weapon='" + weapon + '\'' +
-                '}';
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
