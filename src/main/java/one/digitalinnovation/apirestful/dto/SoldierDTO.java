@@ -1,12 +1,13 @@
 package one.digitalinnovation.apirestful.dto;
 
+import one.digitalinnovation.apirestful.enums.Breed;
 import org.springframework.hateoas.RepresentationModel;
 
 public class SoldierDTO extends RepresentationModel<SoldierDTO> {
     private Long id;
     private String cpf;
     private String name;
-    private String breed;
+    private Breed breed;
     private String weapon;
     private String status;
 
@@ -34,11 +35,11 @@ public class SoldierDTO extends RepresentationModel<SoldierDTO> {
         this.name = name;
     }
 
-    public String getBreed() {
+    public Breed getBreed() {
         return breed;
     }
 
-    public void setBreed(String breed) {
+    public void setBreed(Breed breed) {
         this.breed = breed;
     }
 
