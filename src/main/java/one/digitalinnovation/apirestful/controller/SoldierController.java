@@ -37,10 +37,10 @@ public class SoldierController {
         return ResponseEntity.status(HttpStatus.CREATED).body(soldierDTO);
     }
 
-    @PutMapping("/{cpf")
-    public ResponseEntity<SoldierDTO> editSoldier(@PathVariable String cpf,
+    @PutMapping("/{id}")
+    public ResponseEntity<SoldierDTO> editSoldier(@PathVariable Long id,
                                                   @RequestBody SoldierDTO soldierDTO) {
-        soldierService.editSoldier(cpf, soldierDTO);
+        soldierService.editSoldier(id, soldierDTO);
         return ResponseEntity.status(HttpStatus.OK).body(soldierDTO);
     }
 

@@ -41,7 +41,9 @@ public class SoldierService {
         soldierRepository.save(soldierEntity);
     }
 
-    public void editSoldier(String cpf, SoldierDTO soldierDTO) {
+    public void editSoldier(Long id, SoldierDTO soldierDTO) {
+        SoldierEntity soldierEntity = objectMapper.convertValue(soldierDTO, SoldierEntity.class);
+        soldierRepository.save(soldierEntity);
     }
 
     public void deleteSoldier(Long id) {
